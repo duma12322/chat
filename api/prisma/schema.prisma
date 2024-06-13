@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  password  String
+  username  String?
+  isOnline  Boolean?
+
+  lastActive  DateTime @default(now())
+
+  Message Message[]
+}
+
+model Room {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  roomId    String    @unique
+  Message   Message[]
+}
+
+model Message {
+  id   Int     @id @default(autoincrement())
+  text String
+  files Json?
+  seen Boolean @default(false)
+
+  senderId Int?
+  sender   User? @relation(fields: [senderId], references: [id])
+
+  roomId String?
+  room   Room?   @relation(fields: [roomId], references: [roomId])
+
+  createdAt DateTime @default(now())
+}

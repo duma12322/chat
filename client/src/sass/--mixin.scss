@@ -1,0 +1,18 @@
+@mixin custom-scrollbar() {
+    &::-webkit-scrollbar{
+        width: 5px;
+    }
+    &::-webkit-scrollbar-track{
+        background: rgba(45, 45, 45, 0.22);
+    }
+    &::-webkit-scrollbar-thumb{
+        background: rgba(63, 119, 252, 0.39);
+    }
+}
+
+
+@mixin getDown($size){
+    @media screen and (max-width: #{$size}) {
+        @content
+    }
+}
